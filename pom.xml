@@ -18,7 +18,6 @@
   </properties>
 
   <dependencies>
-    <!-- Dépendance pour le runtime ANTLR -->
     <dependency>
       <groupId>org.antlr</groupId>
       <artifactId>antlr4-runtime</artifactId>
@@ -28,34 +27,50 @@
 
   <build>
     <plugins>
-      <!-- Plugin ANTLR pour générer les parsers à partir de la grammaire -->
       <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
         <version>${antlr4.version}</version>
+        <configuration>
+          <libDirectory>${basedir}/src/main/antlr4</libDirectory>
+        </configuration>
         <executions>
           <execution>
+            <id>antlr</id>
             <goals>
               <goal>antlr4</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
             <configuration>
-              <!-- Ajout de l'option -visitor si tu veux générer des visiteurs -->
-              <arguments>
-                <argument>-visitor</argument>
-              </arguments>
+              <sources>
+                <source>target/generated-sources/antlr4</source>
+              </sources>
             </configuration>
           </execution>
         </executions>
       </plugin>
 
-      <!-- Plugin du compilateur Maven -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <source>14</source>
+          <target>14</target>
         </configuration>
       </plugin>
     </plugins>
