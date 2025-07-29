@@ -1,16 +1,15 @@
 lexer grammar HeraldryVocabulary;
 
 // Prépositions, conjonctions et articles.
-D_APOSTROPHE : [Dd] ('\'' | '’');
-DE           : [Dd] 'e';
+DE_PREP      : [Dd] 'e' | [Dd] ('\'' | '’');
 ET           : [Ee] 't';
+UN_E         : [Uu] 'n' | [Uu] 'ne';
 A_PREP       : [Àà];
 AU_PREMIER   : 'au premier' | 'au 1er';
 AU_DEUXIEME  : 'au deuxième' | 'au 2d' | 'au 2e';
 AU_TROISIEME : 'au troisième' | 'au 3e';
 AU_QUATRIEME : 'au quatrième' | 'au 4e';
-AU           : [Aa] 'u';
-A_LA         : [Àà] 'la';
+AU_A_LA           : [Aa] 'u' | [Àà] WS 'la';
 AUX          : [Aa] 'ux';
 LE           : [Ll] 'e';
 LA           : [Ll] 'a';
@@ -21,13 +20,18 @@ SEMI_COLON   : ';';
 
 // --- VOCABULAIRE HÉRALDIQUE ---
 
-// 1. Émaux
-OR           : [Oo] 'r';
-ARGENT       : [Aa] 'rgent';
-GUEULES      : [Gg] 'ueules';
+// 1a. Émaux
 AZUR         : [Aa] 'zur';
+GUEULES      : [Gg] 'ueules';
 SABLE        : [Ss] 'able';
 SINOPLE      : [Ss] 'inople';
+POURPRE      : [Pp] 'ourpre';
+
+// 1b. metaux
+OR           : [Oo] 'r';
+ARGENT       : [Aa] 'rgent';
+
+// 1c. fourrures
 HERMINE      : [Hh] 'ermine';
 VAIR         : [Vv] 'air';
 
@@ -69,6 +73,7 @@ EPISCOPALE   : [Éé] 'piscopale';
 BESANT       : [Bb] 'esant' [sS]?;
 ECUSSON      : [Éé] 'cusson';
 BELIER       : [Bb] 'élier';
+COUPE_M      : [Cc] 'oupe';
 
 // 5. Nombres
 CHIFFRE      : [1-9]; // Uniquement les chiffres de 1 à 9 pour les quartiers
@@ -84,12 +89,16 @@ HUIT         : [Hh] 'uit';
 // 6. Attributs, positions et expressions spécifiques
 RAMPANT      : [Rr] 'ampant';
 PASSANT      : [Pp] 'assant';
+ISSANT       : [Ii] 'ssant';
 ARME         : [Aa] 'rmé';
 LAMPASSE     : [Ll] 'ampassé';
+
+TENANT        :[Tt] 'enant';
+
+
 COURONNE     : [Cc] 'ouronn' ('é' | 'ée' | 'e' | 'ées');
 ENTRELACE    : [Ee] 'ntrelacé' [sS]?;
 ACCOMPAGNE   : [Aa] 'ccompagné';
-DU_MEME      : [Dd] 'u' WS 'même';
 DU_PREMIER   : [Dd] 'u' WS 'premier';
 EN_POINTE    : [Ee] 'n' WS 'pointe';
 COUPEAU      : [Cc] 'oupeau' ([xX])?;
@@ -123,6 +132,7 @@ NOMENCLATURE : '(' [a-zA-Zà-üÀ-Ü \t]+ ')' -> skip;
 
 // Expression complexe traitée comme un seul token
 DE_L_UN_A_L_AUTRE : [Dd] 'e' WS ( 'l\'' | 'l’' ) 'un' WS 'à' WS ( 'l\'' | 'l’' ) 'autre';
+DU_MEME      : [Dd] 'u' WS 'même';
 
 // Ignorer les espaces, tabulations et retours à la ligne entre les tokens.
 WS : [ \t\r\n]+ -> skip;
