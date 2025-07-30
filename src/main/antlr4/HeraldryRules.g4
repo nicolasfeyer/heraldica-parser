@@ -1,4 +1,3 @@
-
 grammar HeraldryRules;
 
 @header {
@@ -7,48 +6,60 @@ package ch.heraldica;
 
 import HeraldryVocabulary;
 
+// --- PARSER RULES ---
+
 blason:
-  simple |
-  partition
-;
+  (partitioned_blason | simple_blason) EOF;
 
-simple:
-  champ (AU_A_LA meuble_desc)?
-;
+partitioned_blason:
+  partition_type (quartered_partition_body | binary_partition_body);
 
-partition:
-    coupe
-;
+quartered_partition_body:
+  COMMA? numbered_field (COMMA? numbered_field)*;
 
-coupe:
-    COUPE COMMA? simple COMMA? ET simple (COMMA AU_A_LA meuble_desc DE_L_UN_A_L_AUTRE)?
-;
+binary_partition_body:
+  COMMA? simple_blason (COMMA? ET simple_blason)? (COMMA AU meuble_desc DE_L_UN_A_L_AUTRE)?;
 
-meuble_desc: 
-    charge position? (DE_PREP couleur)? (action UN_E charge (DE_PREP couleur | DU_MEME)?)?
-;
+numbered_field:
+  AU CHIFFRE simple_blason;
 
-champ:
-  DE_PREP (email | metal)
-;
+simple_blason:
+  field (charge_description)*;
 
-metal   : OR | ARGENT;
-email  : AZUR | GUEULES | SABLE | SINOPLE | POURPRE;
-fourrure : HERMINE | VAIR;
-couleur : metal | email | fourrure;
-position : RAMPANT|PASSANT|ISSANT|ARME|LAMPASSE;
-action : TENANT;
+charge_description:
+  (AU | A | A LA) meuble_desc;
+
+field:
+  (DE_PREP? couleur);
 
 
-meuble : LION | CHEVRON | COUPE_M;
-piece : FASCE  |
-        PAL    |
-        BANDE  |
-        BARRE  |
-        SAUTOIR|
-        CHEF   |
-        CHEVRON|
-        BORDURE|
-        CROIX  ;
+meuble_desc:
+  (number)? charge attributes?
+  (action UN_E charge (DE_PREP couleur | DU_MEME)?)?
+  (arrangement)?;
 
-charge : meuble | piece;
+attributes:
+  (DE_PREP couleur) position? |
+  position (DE_PREP couleur)?;
+
+// --- DEFINITIONS ---
+
+partition_type:
+  COUPE | PARTI | TRANCHE | TAILLE | ECARTELE;
+
+number:
+  UN_E | DEUX | TROIS | QUATRE;
+
+arrangement:
+  LPAREN CHIFFRE COMMA CHIFFRE RPAREN;
+
+// --- VOCABULARY MAPPING ---
+couleur   : metal | email | fourrure;
+metal     : OR | ARGENT;
+email     : AZUR | GUEULES | SABLE | SINOPLE | POURPRE;
+fourrure  : HERMINE | VAIR;
+position  : RAMPANT | PASSANT | ISSANT | ARME | LAMPASSE | POSE_EN_BANDE;
+action    : TENANT;
+charge    : meuble | piece;
+meuble    : LION | CHEVRON | COUPE_M | FERS_DE_LANCE | ETOILE;
+piece     : FASCE | PAL | BANDE | BARRE | SAUTOIR | CHEF | BORDURE | CROIX;
