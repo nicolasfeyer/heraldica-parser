@@ -6,10 +6,13 @@ ET           : [Ee] 't';
 UN_E         : [Uu] 'n' | [Uu] 'ne';
 AU           : [Aa] 'u';
 A            : [Àà];
+AUX          : [Aa] 'ux';
 LA           : 'la'; // Make 'la' its own token for 'à la'
 COMMA        : ',';
 LPAREN       : '(';
 RPAREN       : ')';
+DOT          : '.';
+SEMICOLON    : ';';
 
 // --- VOCABULAIRE HÉRALDIQUE ---
 
@@ -49,15 +52,21 @@ BORDURE      : [Bb] 'ordure';
 CROIX        : [Cc] 'roix';
 
 // 4. Meubles (objets - les mots composés en premier)
-FERS_DE_LANCE : [Ff] 'ers' WS 'de' WS 'lance';  // Added spear points
-LION         : [Ll] 'ion';
-COUPE_M      : [Cc] 'oupe';
+FERS_DE_LANCE : [Ff] 'er' [sS]? WS 'de' WS 'lance';  // Added spear points
+LION         : [Ll] 'ion' [sS]?;
+COUPE_M      : [Cc] 'oupe' [sS]?;
 ETOILE       : [EeÉé] 'toile' [sS]?;
+TOUR         : [Tt] 'our' [sS]?;
+MONTAGNE     : [Mm] 'ontagne' [sS]?;
+COUPEAU      : [Cc] 'oupeau' [xX]?; // Matches 'coupeau' and 'coupeaux'
+ARC_EN_CIEL  : [Aa] 'rc-en-ciel';
+POINTE       : [Pp] 'ointe' [sS]?;
 
 // 5. Nombres
 DEUX         : [Dd] 'eux';
 TROIS        : [Tt] 'rois';
 QUATRE       : [Qq] 'uatre';
+CINQ         : [Cc] 'inq';
 CHIFFRE      : [1-9][0-9]*;
 
 // 6a. positions
@@ -67,6 +76,9 @@ ISSANT       : [Ii] 'ssant';
 ARME         : [Aa] 'rmé';
 LAMPASSE     : [Ll] 'ampassé';
 POSE_EN_BANDE : [Pp] 'osé' ('e' 's'? | 's')? WS 'en' WS 'bande';
+MOUVANT      : [Mm] 'ouvant';
+POSE         : [Pp] 'osé' ('e' | 's' | 'es')?; // Matches posé, posée, posés
+SUR          : [Ss] 'ur';
 
 // 6b. actions
 TENANT       : [Tt] 'enant';

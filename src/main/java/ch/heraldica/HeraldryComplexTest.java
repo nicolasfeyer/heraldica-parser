@@ -41,7 +41,10 @@ public class HeraldryComplexTest {
             "coupé, d'argent au lion de gueules, et d'azur",
             "coupé, d'or au lion issant de gueules, et de sable à la fasce d'or",
             "coupé, au 1 d'or au lion issant de gueules, au 2 d'azur à trois fers de lance d'argent (2,1)",
-            "tranché, d'or au lion de gueules, et de gueules à trois étoiles d'or posées en bande"
+            "tranché, d'or au lion de gueules, et de gueules à trois étoiles d'or posées en bande",
+            "Parti, au 1 de sinople à la fasce d'argent, au 2 de gueules à trois étoiles d'or posées en bande.",
+            "Écartelé, au 1 d'or à la croix de gueules, au 2 d'azur au lion d'argent, au 3 de sable à une tour d'or.",
+            "écartelé, aux 1 et 4 un lion issant d'une montagne de cinq coupeaux posée sur un arc-en-ciel mouvant de la pointe ; aux 2 et 3, trois bandes"
         );
 
     for (var input : examples) {
@@ -57,7 +60,7 @@ public class HeraldryComplexTest {
         lexer.addErrorListener(customErrorListener);
         var tree = parser.blason();
         System.out.println(tree.toStringTree(parser));
-        printSemantic(tree, parser, 0);
+        //printSemantic(tree, parser, 0);
       } catch (Exception e) {
         System.err.println("Erreur lors de l'analyse : " + e.getMessage());
       }
