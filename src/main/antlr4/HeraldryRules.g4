@@ -5,19 +5,17 @@ grammar HeraldryRules;
 package ch.heraldica;
 }
 import HeraldryVocabulary;
-
 blason
    : (partitioned_blason | simple_blason) DOT? EOF
    ;
 
-
 partitioned_blason
-   : COUPE ((COMMA? numbered_field COMMA? numbered_field) | binary_partition_body)
-   | PARTI ((COMMA? numbered_field COMMA? numbered_field) | binary_partition_body)
+   : COUPE (((COMMA | COLON)? numbered_field COMMA? numbered_field) | binary_partition_body)
+   | PARTI (((COMMA | COLON)? numbered_field COMMA? numbered_field) | binary_partition_body)
+   | TAILLE (((COMMA | COLON)? numbered_field COMMA? numbered_field) | binary_partition_body)
+   | TRANCHE (((COMMA | COLON)? numbered_field COMMA? numbered_field) | binary_partition_body)
    | ECARTELE (quartered_partition_body)
-   | (TRANCHE | TAILLE) (binary_partition_body)
    ;
-
 
 binary_partition_body
    : COMMA? simple_blason (COMMA? ET simple_blason)? (COMMA AU meuble_desc DE_L_UN_A_L_AUTRE)?
@@ -44,12 +42,10 @@ number_list
    : CHIFFRE (ET CHIFFRE)*
    ;
 
-
 simple_blason
    : (field (charge_description)*)
    | meuble_desc
    ;
-
 
 charge_description
    : (AU | A | A LA) meuble_desc
@@ -60,19 +56,20 @@ field
    ;
 
 meuble_desc
-   : (number)? charge (modifier (ET? modifier)*)? (arrangement)?
+   : (number | CHIFFRE)? charge (modifier (ET? modifier)*)? (arrangement)?
    ;
-
 
 modifier
    : attributes
-   | (charge_modifier_link (number | LA)? charge)
+   | (charge_modifier_link ((number | CHIFFRE) | LA)? charge)
    | action_phrase
    ;
 
 positional_stmt
-   : EN_CHEF_POS
-   | EN_POINTE_POS
+   : EN_BANDE
+   | EN_POINTE
+   | EN_PAL
+   | EN_CHEF
    ;
 
 action_phrase
@@ -80,17 +77,18 @@ action_phrase
    ;
 
 sub_meuble_desc
-   : (number)? charge (sub_modifier)* (arrangement)?
+   : (number | CHIFFRE)? charge (sub_modifier)* (arrangement)?
    ;
 
 sub_modifier
    : attributes
-   | (charge_modifier_link (number | LA)? charge)
+   | (charge_modifier_link ((number | CHIFFRE) | LA)? charge)
    ;
 
 tincture_spec
    : DE_PREP couleur
    | DU_MEME
+   | PLEIN
    ;
 
 charge_modifier_link
@@ -122,6 +120,7 @@ number
 
 arrangement
    : LPAREN CHIFFRE COMMA CHIFFRE RPAREN
+   | CHIFFRE ET CHIFFRE
    ;
 
 couleur
@@ -149,19 +148,48 @@ fourrure
    ;
 
 position
-   : RAMPANT
-   | PASSANT
-   | ISSANT
-   | ARME
-   | LAMPASSE
-   | POSE_EN_BANDE
-   | MOUVANT
-   | POSE
+   : situation
+   | disposition
+   ;
+
+position_descr
+   : EN_BANDE
+   | EN_POINTE
    ;
 
 action
    : TENANT
+   ;
+
+disposition
+   : ABAISSE
+   | ADOSSE
+   | AFFRONTE
+   | ARME
+   | EMPOIGNE
+   | NAISSANT
+   | ISSANT
+   | MOUVANT
+   | LAMPASSE
+   | RAMPANT
+   | PASSANT
+   ;
+
+situation
+   : ABOUTE
+   | ACCOLE
    | ACCOMPAGNE
+   | ACCOSTE
+   | ADEXTRE
+   | APPOINTE
+   | BROCHANT
+   | CHARGE
+   | COTOTE
+   | HAUSSE
+   | POSE
+   | SENEXTRE
+   | SOMME
+   | SURMONTE
    ;
 
 charge
@@ -170,29 +198,135 @@ charge
    ;
 
 meuble
-   : LION
-   | CHEVRON
-   | COUPE_M
-   | FERS_DE_LANCE
-   | ETOILE
-   | TOUR
-   | MONTAGNE
-   | COUPEAU
+   : ABEILLE
+   | AIGLE
+   | ALERION
+   | AGNEAU
+   | ANCRE_MARINE
+   | ANGUILLE
+   | ARAIGNEE
+   | BAR
+   | BELIER
+   | BELETTE
+   | BROCHET
+   | CANARD
+   | CERF
+   | CHAUVE_SOURIS
+   | CHEVAL
+   | CHEVRE
+   | CHIEN
+   | CHOUETTE
+   | CIGOGNE
+   | COQ
+   | CORBEAU
+   | COUCOU
+   | DAUPHIN
+   | DRAGON
+   | ECUREUIL
+   | ELEPHANT
+   | FAUCON
+   | GRENOUILLE
+   | GRIFFON
+   | HERISSON
+   | HERMINE
+   | HIBOU
+   | LEOPARD
+   | LEVRIER
+   | LICORNE
+   | LION
+   | LOUP
+   | MERLETTE
+   | MOUTON
+   | OURS
+   | PANTHERE
+   | PAON
+   | POISSON
+   | SANGLIER
+   | SERPENT
+   | SINGE
+   | TAUREAU
+   | ARBRE
+   | CHARDON
+   | CHENE
+   | FEUILLE
+   | FLEUR_DE_LYS
+   | QUINTEFEUILLE
+   | ROSE
+   | SAPIN
+   | TREFLE
+   | ANNELET
+   | ARC
    | ARC_EN_CIEL
-   | POINTE
+   | CLEF
+   | CLOCHE
+   | CLOU
    | COEUR
+   | COR
+   | COUPE_MEUBLE
+   | COUPEAU
+   | COURONNE
    | CROISETTE
+   | CROISSANT
+   | EPEE
+   | EPERON
+   | ETOILE
+   | FER_DE_LANCE
+   | FLAMME
+   | FLECHE
+   | HACHE
+   | LANCE
+   | MAIN
+   | MARTEAU
+   | MONTAGNE
+   | ROUE
+   | SOLEIL
+   | TOUR
+   | ANGE
+   | HOMME_SAUVAGE
+   | MAURE
+   | SIRENE
    ;
 
 piece
-   : FASCE
-   | PAL
-   | BANDE
+   : BANDE
    | BARRE
-   | SAUTOIR
-   | CHEF
+   | BATON
+   | BESANT
+   | BILLETTE
    | BORDURE
+   | BURELLE
+   | CANTON
+   | CARREAU
+   | CHAMPAGNE
+   | CHAPE
+   | CHAUSSE
+   | CHEF
+   | CHEVRON
+   | COMBLE
+   | COTICE
    | CROIX
+   | DEVISE
+   | ECOT
+   | ECUSSON
+   | FASCE
+   | FILET
+   | FLANC
+   | FRANC_QUARTIER
+   | GIRON
+   | GOUSSET
+   | LAMBEL
+   | LOSANGE
+   | MACLE
+   | ORLE
+   | PAL
+   | PAIRLE
+   | POINT
+   | POINTE
+   | RUSTRE
+   | SAUTOIR
+   | TIERCE
+   | TOURTEAU
+   | TRECHEUR
    | VERGETTE
    ;
 
