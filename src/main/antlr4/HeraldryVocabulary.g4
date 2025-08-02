@@ -28,7 +28,7 @@ AUX
 LA
    : 'la'
    ;
-   
+
 COMMA
    : ','
    ;
@@ -49,7 +49,11 @@ SEMICOLON
    : ';'
    ;
 
-// 1a. Émaux
+COLON
+   : ':'
+   ;
+   // 1a. Émaux
+   
 AZUR
    : [Aa] 'zur'
    ;
@@ -69,8 +73,8 @@ SINOPLE
 POURPRE
    : [Pp] 'ourpre'
    ;
-
-// 1b. metaux
+   // 1b. metaux
+   
 OR
    : [Oo] 'r'
    ;
@@ -78,8 +82,8 @@ OR
 ARGENT
    : [Aa] 'rgent'
    ;
-
-// 1c. fourrures
+   // 1c. fourrures
+   
 HERMINE
    : [Hh] 'ermine'
    ;
@@ -87,8 +91,8 @@ HERMINE
 VAIR
    : [Vv] 'air'
    ;
-
-// 2. Partitions
+   // 2. Partitions
+   
 PARTI
    : [Pp] 'arti'
    ;
@@ -116,14 +120,18 @@ PALE
 GIRONNE
    : [Gg] 'ironné'
    ;
-
-// 3. Pièces (formes géométriques)
+   // 3. Pièces (formes géométriques)
+   
 FASCE
    : [Ff] 'asce'
    ;
 
 PAL
    : [Pp] 'al'
+   ;
+
+VERGETTE
+   : [Vv] 'ergette' [Ss]?
    ;
 
 BANDE
@@ -153,12 +161,34 @@ BORDURE
 CROIX
    : [Cc] 'roix'
    ;
+   // 4. Meubles (objets - les mots composés en premier)
+   
+CROISETTE
+   : [Cc] 'roisette' [sS]?
+   ;
 
-// 4. Meubles (objets - les mots composés en premier)
+COEUR
+   : [Cc] 'oeur'
+   | [Cc] 'œur'
+   ;
+
 FERS_DE_LANCE
    : [Ff] 'er' [sS]? WS 'de' WS 'lance'
    ;
-   
+
+CROSSE_EPISCOPALE
+   : ('crosse' WS 'épiscopale')
+   | ('crosses' WS 'épiscopale')
+   ;
+
+COURONNE
+   : [Cc] 'ouronne' [sS]?
+   ;
+
+BESANT
+   : [Bb] 'esant' [sS]?
+   ;
+
 LION
    : [Ll] 'ion' [sS]?
    ;
@@ -182,7 +212,7 @@ MONTAGNE
 COUPEAU
    : [Cc] 'oupeau' [xX]?
    ;
-   
+
 ARC_EN_CIEL
    : [Aa] 'rc-en-ciel'
    ;
@@ -190,8 +220,8 @@ ARC_EN_CIEL
 POINTE
    : [Pp] 'ointe' [sS]?
    ;
-
-// 5. Nombres
+   // 5. Nombres
+   
 DEUX
    : [Dd] 'eux'
    ;
@@ -211,8 +241,8 @@ CINQ
 CHIFFRE
    : [1-9] [0-9]*
    ;
-
-// 6a. positions
+   // 6a. positions
+   
 RAMPANT
    : [Rr] 'ampant'
    ;
@@ -244,20 +274,49 @@ MOUVANT
 POSE
    : [Pp] 'osé' ('e' | 's' | 'es')?
    ;
-   
+
 SUR
    : [Ss] 'ur'
    ;
 
-// 6b. actions
+ENTRE
+   : [Ee] 'ntre'
+   ;
+
+ECHIQUE_TE
+   : [EeÉé] 'chiquetée' ('e' | 's' | 'es')?
+   ;
+
+POSE_EN_PAL
+   : [Pp] 'osé' ('e' | 's' | 'es')? WS 'en' WS [Pp] 'al'
+   ;
+
+EN_CHEF_POS
+   : [Ee] 'n' WS [Cc] 'hef'
+   ;
+
+EN_POINTE_POS
+   : [Ee] 'n' WS [Pp] 'ointe'
+   ;
+   // 6b. actions
+   
 TENANT
    : [Tt] 'enant'
    ;
 
-// Expression complexe traitée comme un seul token
+ENFILANT
+   : [Ee] 'nfilant' ('e' | 's' | 'es')?
+   ;
+
+ACCOMPAGNE
+   : [Aa] 'ccompagné' ('e' | 's' | 'es')?
+   ;
+   // Expression complexe traitée comme un seul token
+   
 DE_L_UN_A_L_AUTRE
    : [Dd] 'e' WS ('l\'' | 'l’') 'un' WS 'à' WS ('l\'' | 'l’') 'autre'
    ;
+
 DU_MEME
    : [Dd] 'u' WS 'même'
    ;

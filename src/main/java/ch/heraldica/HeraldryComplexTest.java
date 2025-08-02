@@ -45,7 +45,8 @@ public class HeraldryComplexTest {
                         "tranché, d'or au lion de gueules, et de gueules à trois étoiles d'or posées en bande",
                         "Parti, au 1 de sinople à la fasce d'argent, au 2 de gueules à trois étoiles d'or posées en bande.",
                         "Écartelé, au 1 d'or à la croix de gueules, au 2 d'azur au lion d'argent, au 3 de sable à une tour d'or.",
-                        "écartelé, aux 1 et 4 un lion issant d'une montagne de cinq coupeaux posée sur un arc-en-ciel mouvant de la pointe ; aux 2 et 3, trois bandes"
+                        "écartelé, aux 1 et 4 un lion issant d'une montagne de cinq coupeaux posée sur un arc-en-ciel mouvant de la pointe ; aux 2 et 3, trois bandes",
+                        "écartelé, aux 1 et 4 d'azur au sautoir accompagné de quatre croisettes, aux 2 et 3 de gueules à un coeur posé entre deux vergettes et accompagné en pointe d'une montagne de trois coupeaux"
                 );
 
         for (var input : examples) {
@@ -61,7 +62,7 @@ public class HeraldryComplexTest {
                 lexer.addErrorListener(customErrorListener);
                 var tree = parser.blason();
                 System.out.println(tree.toStringTree(parser));
-                //printSemantic(tree, parser, 0);
+                printSemantic(tree, parser, 0);
             } catch (Exception e) {
                 System.err.println("Erreur lors de l'analyse : " + e.getMessage());
             }
@@ -91,6 +92,7 @@ public class HeraldryComplexTest {
 
                         // --- Partitioning Logic ---
                         case "partitioned_blason" -> "➗"; // A blason that is divided
+                        case "partition_type" -> "🔪"; // NEW: The type of partition (coupé, parti, etc.)
                         case "binary_partition_body" -> "⚖️"; // The "... et ..." structure for two parts
                         case "quartered_partition_body" -> "🔢"; // The "au 1... au 2..." structure for quartering
                         case "multi_numbered_field" -> "📑"; // Multiple numbered fields, e.g., "aux 1 et 3"
@@ -105,9 +107,17 @@ public class HeraldryComplexTest {
 
                         // --- Charge Details ---
                         case "meuble_desc" -> "✍️"; // The specific details of one charge
+                        case "sub_meuble_desc" ->
+                                "📄"; // NEW: A nested charge description (e.g., for an item being held)
                         case "modifier" -> "✨"; // A modifier for a charge (e.g., color, action)
+                        case "sub_modifier" -> "🔸"; // NEW: A nested modifier
                         case "attributes" -> "🖌️"; // Specific attributes like color and position
                         case "charge_modifier_link" -> "🔗"; // A linking word like 'de' or 'sur'
+                        case "positional_stmt" -> "📍"; // NEW: A positional phrase like 'en pointe'
+                        case "action_phrase" ->
+                                "🗣️"; // NEW: A complex action phrase (e.g., 'accompagné de trois étoiles')
+
+                        // --- Core Components ---
                         case "charge" -> "⚜️"; // A generic charge (Fleur-de-lis icon)
                         case "meuble" -> "🦁"; // A specific animate/inanimate charge (e.g., a lion)
                         case "piece" -> "➕"; // A specific geometric charge (e.g., a cross)
@@ -117,6 +127,7 @@ public class HeraldryComplexTest {
                         case "arrangement" -> "♟️"; // The layout of multiple charges, e.g., (2,1)
 
                         // --- Tinctures (Colors) ---
+                        case "tincture_spec" -> "🔖"; // NEW: A tincture specification (e.g., 'd'or' or 'du même')
                         case "couleur" -> "🌈"; // Any color
                         case "metal" -> "🪙"; // Gold or Silver
                         case "email" -> "🎨"; // Enamels (blue, red, etc.)

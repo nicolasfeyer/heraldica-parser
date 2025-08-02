@@ -59,7 +59,9 @@
                 <configuration>
                     <antlr4>
                         <!-- Add this section to specify the formatter -->
-                        <antlr4Formatter/>
+                        <antlr4Formatter>
+                            <version>1.2.1</version> <!-- optional -->
+                        </antlr4Formatter>
                         <includes>
                             <include>src/main/antlr4/**/*.g4</include>
                         </includes>

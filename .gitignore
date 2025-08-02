@@ -30,3 +30,4 @@ bin/
 /target/
 /heraldica-parser.iml
 /.idea/
+/gen/
